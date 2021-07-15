@@ -3,6 +3,7 @@ package Tests;
 import Pages.MyAccountLogin;
 import Setup.TemplateSetup;
 import Utils.DataPOJO;
+import Utils.ExcelData;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -12,10 +13,17 @@ import org.testng.annotations.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 public class EndToEndTest extends TemplateSetup {
-    @DataProvider
+    @DataProvider(name ="petInfo")
+    public Object[][] excelDP() throws IOException {
+        ExcelData excelData = new ExcelData();
+        return excelData.getData("src/test/resources/pet.xlsx","e2e");
+    }
+
+    @DataProvider(name ="userInfo")
     public Object[][] userInfo() throws FileNotFoundException {
         JsonElement jsonData = new JsonParser().parse(new FileReader("src/test/resources/data.json"));
         JsonElement dataSet = jsonData.getAsJsonObject().get("users");
